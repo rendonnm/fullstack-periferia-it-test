@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #e6f9f2;
+  --color-primary-100: #ccf3e5;
+  --color-primary-200: #99e7cb;
+  --color-primary-300: #66dbb1;
+  --color-primary-400: #33cf97;
+  --color-primary-500: #01ca6e;
+  --color-primary-600: #01a258;
+  --color-primary-700: #017942;
+  --color-primary-800: #00512c;
+  --color-primary-900: #002916;
+}
+
+@font-face {
+  font-family: 'Onest Variable';
+  src: url('/Onest.ttf') format('truetype');
+}
+
+* {
+  font-family: 'Onest Variable';
+}
