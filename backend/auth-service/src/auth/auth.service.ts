@@ -32,45 +32,12 @@ export class AuthService {
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
+      city: user.city,
       avatarUrl: user.avatarUrl ?? DEFAULT_AVATAR_URL,
     };
 
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
-  }
-
-  async validateToken(token: string) {
-    try {
-      const payload = await this.jwtService.verifyAsync<{
-        sub: string;
-        username: string;
-      }>(token);
-      const user = await this.usersService.findById(payload.sub);
-
-      if (!user) {
-        return {
-          valid: false,
-          error: 'Usuario no encontrado',
-        };
-      }
-
-      return {
-        valid: true,
-        user: {
-          id: user.id,
-          username: user.username,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          city: user.city,
-          avatarUrl: user.avatarUrl,
-        },
-      };
-    } catch {
-      return {
-        valid: false,
-        error: 'Token inválido o expirado',
-      };
-    }
   }
 }
