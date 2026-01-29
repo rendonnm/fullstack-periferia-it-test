@@ -2,6 +2,10 @@
 
 Red social tecnológica desarrollada con NestJS, React y PostgreSQL.
 
+## 🎥 Video Demostrativo
+
+[Video demostrativo del desarrollo y funcionamiento de la aplicación](https://youtu.be/FB7qQlftjGI)
+
 ## 🚀 Stack Tecnológico
 
 - **Backend:** NestJS + TypeScript + Prisma + PostgreSQL
