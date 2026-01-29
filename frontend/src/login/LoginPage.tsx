@@ -3,7 +3,7 @@ import { AppLogo } from "../AppLogo";
 
 export function LoginPage() {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 px-4">
+    <section className="min-h-screen flex items-center justify-center bg-linear-to-br from-primary-50 to-primary-100 px-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col bg-white rounded-2xl shadow-xl p-8 items-center">
           <div className="size-35">
