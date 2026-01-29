@@ -1,8 +1,9 @@
 import type { Post } from "../types/post";
 import { API_ENDPOINTS } from "../../config/api";
+import { useAuthStore } from "../../stores/authStore";
 
 function getAuthHeaders() {
-  const token = localStorage.getItem("token");
+  const token = useAuthStore.getState().token;
   return {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,

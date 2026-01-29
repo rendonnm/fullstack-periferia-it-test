@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
-import type { Post } from "../types/post";
+import { useEffect } from "react";
 import { getPosts, createPost as createPostService } from "../service/posts";
+import { usePostStore } from "../../stores/postStore";
 
 export function usePosts() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { posts, loading, error, setPosts, addPost, setLoading, setError } =
+    usePostStore();
 
   useEffect(() => {
     loadPosts();
@@ -31,7 +30,7 @@ export function usePosts() {
         message: content,
         title: title || "",
       });
-      setPosts([newPost, ...posts]);
+      addPost(newPost);
     } catch (err) {
       console.error("Error creating post:", err);
       throw err;

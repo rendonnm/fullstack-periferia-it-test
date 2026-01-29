@@ -1,9 +1,18 @@
 import { CreatePost } from "./components/CreatePost";
 import { PostsFeed } from "./components/PostsFeed";
 import { usePosts } from "./hooks/usePosts";
+import { useAuthStore } from "../stores/authStore";
+import { useNavigate } from "react-router";
 
 export function PostMain() {
   const { posts, loading, error, createPost } = usePosts();
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-primary-50 to-primary-100">
@@ -11,7 +20,10 @@ export function PostMain() {
         <div className="max-w-2xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-gray-900">Inicio</h1>
-            <button className="text-primary-500 hover:text-primary-600 font-semibold">
+            <button
+              onClick={handleLogout}
+              className="text-primary-500 hover:text-primary-600 font-semibold"
+            >
               Cerrar sesión
             </button>
           </div>
