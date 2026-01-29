@@ -5,7 +5,10 @@ interface LogPayload {
   password: string;
 }
 
-export async function loginUser({ user, password }: LogPayload) {
+export async function loginUser({
+  user,
+  password,
+}: LogPayload): Promise<string | null> {
   const url = new URL("auth/login", API_ENDPOINTS.AUTH_SERVICE);
   const res = await fetch(url.href, {
     method: "POST",
@@ -21,8 +24,7 @@ export async function loginUser({ user, password }: LogPayload) {
 
   const data = await res.json();
   if (data["access_token"]) {
-    localStorage.setItem("token", data["access_token"]);
-    return true;
+    return data["access_token"];
   }
-  return false;
+  return null;
 }
