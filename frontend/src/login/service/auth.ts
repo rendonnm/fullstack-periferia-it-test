@@ -1,10 +1,12 @@
+import { API_ENDPOINTS } from "../../config/api";
+
 interface LogPayload {
   user: string;
   password: string;
 }
 
 export async function loginUser({ user, password }: LogPayload) {
-  const url = new URL("auth/login", "http://localhost:3000");
+  const url = new URL("auth/login", API_ENDPOINTS.AUTH_SERVICE);
   const res = await fetch(url.href, {
     method: "POST",
     headers: {
