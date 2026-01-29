@@ -1,0 +1,96 @@
+services:
+  auth-db:
+    image: postgres:16
+    container_name: auth-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-auth}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-auth}
+      POSTGRES_DB: ${POSTGRES_DB:-authdb}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-auth}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  post-db:
+    image: postgres:16
+    container_name: post-db
+    environment:
+      POSTGRES_USER: ${POST_POSTGRES_USER:-post}
+      POSTGRES_PASSWORD: ${POST_POSTGRES_PASSWORD:-post}
+      POSTGRES_DB: ${POST_POSTGRES_DB:-postdb}
+    ports:
+      - "${POST_POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - post_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POST_POSTGRES_USER:-post}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  auth-service:
+    build:
+      context: ./backend/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-auth}:${POSTGRES_PASSWORD:-auth}@auth-db:5432/${POSTGRES_DB:-authdb}?schema=public
+      JWT_SECRET: ${JWT_SECRET:-P3r1f3r1a_IT_M3d3llin_2026_SecureKeyForJWTAuthentication}
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      auth-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  post-service:
+    build:
+      context: ./backend/post-service
+      dockerfile: Dockerfile
+    container_name: post-service
+    environment:
+      DATABASE_URL: postgresql://${POST_POSTGRES_USER:-post}:${POST_POSTGRES_PASSWORD:-post}@post-db:5432/${POST_POSTGRES_DB:-postdb}?schema=public
+      JWT_SECRET: ${JWT_SECRET:-P3r1f3r1a_IT_M3d3llin_2026_SecureKeyForJWTAuthentication}
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    depends_on:
+      post-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - auth-service
+      - post-service
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  auth_db_data:
+  post_db_data:
+
+networks:
+  app-network:
+    driver: bridge
