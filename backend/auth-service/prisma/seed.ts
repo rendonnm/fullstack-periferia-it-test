@@ -21,6 +21,7 @@ async function main() {
     where: { username: 'admin' },
     update: {},
     create: {
+      id: '0001',
       username: 'admin',
       password: hashedPassword,
       firstName: 'Admin',
@@ -35,48 +36,56 @@ async function main() {
 
   const users = [
     {
+      id: '0002',
       username: 'jramirez',
       firstName: 'Juan',
       lastName: 'Ramírez',
       city: 'Bogotá',
     },
     {
+      id: '0003',
       username: 'mlopez',
       firstName: 'María',
       lastName: 'López',
       city: 'Medellín',
     },
     {
+      id: '0004',
       username: 'pgomez',
       firstName: 'Pedro',
       lastName: 'Gómez',
       city: 'Cali',
     },
     {
+      id: '0005',
       username: 'sgonzalez',
       firstName: 'Sofía',
       lastName: 'González',
       city: 'Manizales',
     },
     {
+      id: '0006',
       username: 'jobando',
       firstName: 'Jessica',
       lastName: 'Obando',
       city: 'Medellín',
     },
     {
+      id: '0007',
       username: 'hsanchez',
       firstName: 'Héctor',
       lastName: 'Sanchez',
       city: 'Cúcuta',
     },
     {
+      id: '0008',
       username: 'kmosquera',
       firstName: 'Kibson',
       lastName: 'Mosquera',
       city: 'Armenia',
     },
     {
+      id: '0009',
       username: 'dmesa',
       firstName: 'David',
       lastName: 'Mesa',
@@ -101,7 +110,7 @@ async function main() {
 
 main()
   .catch((e) => {
-    console.error('❌ Error durante el proceso:', e);
+    console.error('Error durante el proceso:', e);
     process.exit(1);
   })
   .finally(async () => {
